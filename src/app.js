@@ -3,7 +3,7 @@ const path = require('path');
 const userRouter = require('./routers/user')
 require('./db/mongoose')
 
-const port = process.env.PORT
+const port = process.env.PORT || 1234
 
 const app = express()
 
