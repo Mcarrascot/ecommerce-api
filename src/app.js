@@ -1,21 +1,22 @@
-const express = require('express')
-const path = require('path');
-const userRouter = require('./routers/user')
-require('./db/mongoose')
+import express from 'express';
+import userRouter from './routers/user.js';
+import paymentRouter from './routers/payment.js';
+import cors from 'cors';
+import connectDB from './db/mongoose.js';
 
 const port = process.env.PORT || 1234
 
+connectDB()
+
+
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(userRouter)
+app.use(paymentRouter)
 
-const publicDirectory = path.join(__dirname, '../public')
-app.use(express.static(publicDirectory))
 
-app.get('/', (req, res) => {
-    res.sendFile('index.html')
-})
 app.listen(port, () => {
     console.log('server listening on port ' + port)
 })

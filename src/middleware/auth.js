@@ -1,21 +1,21 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/user')
+import jwt from 'jsonwebtoken';
 
-const auth = async(req, res, next) => {
+export default (req, res, next) => {
+    const token = req.header('x-auth-token')
+    if (!token) {
+        return res.status(401).json({
+            msg: "No hay token, permiso no válido"
+        })
+    }
+
     try {
-        const token = req.header('Authorization').replace('Bearer ', '')
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const user = await User.findOne({ _id: decoded._id, 'tokens.token':token })
-        
-        if(!user) {
-            throw new Error
-        }
-        req.token = token
-        req.user = user
+        const openToken = jwt.verify(token, 'MY_SECRET_KEY')
+        req.user = openToken.user
         next()
     } catch (error) {
-        res.status(401).send({error: "Authentication required"})
+        res.json({
+            msg: "Hubo un error",
+            error
+        })
     }
 }
-
-module.exports = auth
