@@ -1,6 +1,8 @@
 import express from 'express';
 import userRouter from './routers/user.js';
 import paymentRouter from './routers/payment.js';
+import productsRouter from './routers/product.js';
+
 import cors from 'cors';
 import connectDB from './db/mongoose.js';
 import path from 'path';
@@ -20,6 +22,8 @@ app.use(cors())
 app.use(express.json())
 app.use(userRouter)
 app.use(paymentRouter)
+app.use(productsRouter)
+
 
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
