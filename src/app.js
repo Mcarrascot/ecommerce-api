@@ -17,6 +17,10 @@ app.use(userRouter)
 app.use(paymentRouter)
 
 
+// Serve static files from the "public" directory
+app.use('/public', express.static(path.join(__dirname, '../public')));
+
+
 app.listen(port, () => {
     console.log('server listening on port ' + port)
 })
